@@ -82,5 +82,8 @@
     "bot-wa",
     "bot-whatsapp",
     "WhatsApp"
-  ]
+  ],
+  "engines": {
+    "node": ">=14.0.0"
+  }
 }
