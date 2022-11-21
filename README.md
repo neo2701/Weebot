@@ -1,19 +1,9 @@
-<h1 align="center">Welcome<img src="https://user-images.githubusercontent.com/1303154/88677602-1635ba80-d120-11ea-84d8-d263ba5fc3c0.gif" width="40px" alt=""><br></h1>
-<p align="center">Kurumi-Wabot Multi Device</p>
+<h1 align="center">Welcome</h1>
+<p align="center">Weebot Multi Device</p>
 <div align="center">
-<img src="https://telegra.ph/file/1ad6f99162dc762ccabc2.jpg" width="150" height="150" border="0" alt="PFFP">
-
 <br> Gunakan dengan risiko Anda sendiri!
 
-[![Check Error](https://github.com/AnandaGanz-bot/Kurumi-MD/actions/workflows/node.js.yml/badge.svg)](https://github.com/AnandaGanz-bot/Kurumi-MD/actions/workflows/node.js.yml)
-
-[![JavaScript](https://img.shields.io/badge/JavaScript-d6cc0f?style=for-the-badge&logo=javascript&logoColor=white)](https://javascript.com) [![NodeJS](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
-
-<a href="https://chat.whatsapp.com/Fki5rezjWWl0wUsD1wBsKQ"> <img src="https://img.shields.io/badge/whatsapp-Support_Group-blue?style=social&logo=whatsapp" alt="support" /></a>
-
 > Dibuat dengan Baileys dan Map() ( sebagai command handler ) <br />
-
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/AnandaGanz-bot/Kurumi-MD)
 
 | Build Pack  | Link                                                                  |
 | ----------- | --------------------------------------------------------------------- |
@@ -61,7 +51,7 @@ module.exports = {
 
 ## Contoh Options
 
-Contoh Command : [`./command/umum/help.js`](https://github.com/Rizky878/rzky-multidevice/blob/main/command/umum/help.js)<br />
+Contoh Command : [`./command/umum/help.js`]<br />
 
 ```js
 {
@@ -82,11 +72,7 @@ Contoh Command : [`./command/umum/help.js`](https://github.com/Rizky878/rzky-mul
 
 ## Config
 
-Isi semua yang dibutuhkan di file [`config.json`](https://github.com/Rizky878/rzky-multidevice/blob/main/config.json)<br />
-
-## Request atau report bug
-
-Untuk request atau report bug bisa chat saya disini [Whatsapp](https://wa.me/6285725012403)
+Isi semua yang dibutuhkan di file [`config.json`]<br />
 
 ## Instalasi On Termux
 
@@ -153,27 +139,6 @@ apt install libwebp-dev -y
 
 # pacman (Arch Linux)
 pacman -S libwebp
-```
-
-### Clone Repo
-
-```bash
-# clone repo
-git clone --depth=1 https://github.com/AnandaGanz-bot/Kurumi-MD
-
-# ubah posisi direktori kamu
-cd Kurumi-MD
-
-# install semua module
-npm install
-# atau
-yarn install
-
-# bila libray @adiwajshing/baileys error, jalan kan kode yg ada dibawah ini
-
-cd ./node_modules/@adiwajshing/baileys
-npm install -g typescript
-npm run build:tsc
 ```
 
 ### Start Bot

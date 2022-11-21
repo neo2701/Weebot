@@ -14,7 +14,7 @@ const fs = require("fs");
 const path = require("path");
 const { Boom } = require("@hapi/boom");
 const { color } = require("./lib");
-const { session } = require("./config.json");
+const { session, namebot } = require("./config.json");
 const handler = require("./handler");
 const WelcomeHandler = require("./lib/welcome");
 const utils = require("./utils");
@@ -28,7 +28,10 @@ const spinnies = new Spinnies({
 });
 const moment = require("moment");
 const { self } = require("./config.json");
-attribute.prefix = "#";
+attribute.prefix = config.prefix;
+
+// axios fix
+process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = "0";
 
 // Set country code
 moment.tz.setDefault(config.timezone).locale(config.locale);
@@ -93,7 +96,7 @@ const limitData = cron.schedule(
 let data = fs.readFileSync(path.join(__dirname, "doom.flf"), "utf8");
 require("figlet").parseFont("doom", data);
 require("figlet").text(
-	"RZKY MD",
+	namebot,
 	{
 		font: "doom",
 		horizontalLayout: "default",
@@ -248,8 +251,24 @@ const connect = async () => {
 			if (connection != "connecting")
 				spinnies.update("spinner-2", { text: "Connection: " + connection, color: "yellow" });
 		}
-		if (connection == "open")
+		if (connection == "open") {
 			spinnies.succeed("spinner-2", { text: "Successfully connected to whatsapp", color: "green" });
+			if (config.server) {
+				const express = require("express");
+				const bodyParser = require("body-parser");
+				const app = express();
+				app.use(express.json());
+				const handler = require("./lib/apihandler");
+				const routes = handler.router(conn);
+				// const routerconn = handler.conn(conn);
+				app.use(bodyParser.urlencoded({ extended: true }));
+				app.use(bodyParser.json());
+				app.use("/api", routes);
+				app.listen(config.port, () => {
+					console.log(`Server Started at ${config.port}`);
+				});
+			}
+		}
 
 		if (connection === "close") {
 			let reason = new Boom(lastDisconnect.error).output.statusCode;
@@ -427,6 +446,7 @@ const connect = async () => {
 	// messages.upsert
 	conn.ev.on("messages.upsert", async (m) => {
 		const msg = m.messages[0];
+		// console.log(msg);
 		if (msg.key.id.startsWith("BAE5") && msg.key.id.length === 16) return;
 		const type = msg.message ? Object.keys(msg.message)[0] : "";
 		let dataCek = db.cekDatabase("antidelete", "id", msg.key.remoteJid);
@@ -436,11 +456,6 @@ const connect = async () => {
 	});
 };
 connect();
-
-if (config.server)
-	require("http")
-		.createServer((__, res) => res.end("Server Running!"))
-		.listen(8080);
 
 process.on("uncaughtException", function (err) {
 	console.error(err);

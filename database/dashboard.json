@@ -1,1 +1,74 @@
-[]
+[
+  {
+    "name": "ping",
+    "success": 2,
+    "failed": 0,
+    "lastUpdate": 1668697832980
+  },
+  {
+    "name": "toimg",
+    "success": 2,
+    "failed": 0,
+    "lastUpdate": 1667265122723
+  },
+  {
+    "name": "sticker",
+    "success": 4,
+    "failed": 0,
+    "lastUpdate": 1667296558545
+  },
+  {
+    "name": "help",
+    "success": 14,
+    "failed": 0,
+    "lastUpdate": 1668698698698
+  },
+  {
+    "name": "test",
+    "success": 3,
+    "failed": 0,
+    "lastUpdate": 1668533940354
+  },
+  {
+    "name": "downloaderall",
+    "success": 9,
+    "failed": 0,
+    "lastUpdate": 1667289938178
+  },
+  {
+    "name": "stats",
+    "success": 1,
+    "failed": 0,
+    "lastUpdate": 1667305819606
+  },
+  {
+    "name": "spinkelompok",
+    "success": 30,
+    "failed": 12,
+    "lastUpdate": 1668698719431
+  },
+  {
+    "name": "tugas",
+    "success": 6,
+    "failed": 0,
+    "lastUpdate": 1668697256185
+  },
+  {
+    "name": "infochat",
+    "success": 3,
+    "failed": 1,
+    "lastUpdate": 1668696068301
+  },
+  {
+    "name": "chatid",
+    "success": 3,
+    "failed": 1,
+    "lastUpdate": 1668696272098
+  },
+  {
+    "name": "antidelete",
+    "success": 1,
+    "failed": 0,
+    "lastUpdate": 1668698737928
+  }
+]

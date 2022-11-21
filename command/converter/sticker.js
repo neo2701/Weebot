@@ -1,6 +1,7 @@
 const { sticker } = require("../../lib/convert");
 const { modStick, createExif } = require("../../lib/exif2");
 const fs = require("fs");
+const { isPremium } = require("../info/cekprem");
 
 module.exports = {
 	name: "sticker",
@@ -30,10 +31,14 @@ module.exports = {
 		const isQDoc = type === "extendedTextMessage" && content.includes("documentMessage");
 		const isQStic = type === "extendedTextMessage" && content.includes("stickerMessage");
 		q = q.split("|");
-		const packInfo = {
-			packname: q[0] ? q[0] : config.packInfo.packname,
-			author: q[1] ? q[1] : config.packInfo.author,
+		let packInfo = {
+			packname: isPremium && q[0] ? q[0] : config.packInfo.packname,
+			author: isPremium && q[1] ? q[1] : config.packInfo.author,
 		};
+		// packInfo = {
+		// 	packname: q[0] ? q[0] : config.packInfo.packname,
+		// 	author: q[1] ? q[1] : config.packInfo.author,
+		// };
 
 		let buffer, stickerBuff;
 		try {

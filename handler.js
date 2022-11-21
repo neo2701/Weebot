@@ -1,5 +1,6 @@
 require("./global.js");
 require("./lib/Proto");
+const config = require("./config.json");
 const { getBinaryNodeChild } = require("@adiwajshing/baileys");
 const Baileys = require("@adiwajshing/baileys");
 const { logger } = Baileys.DEFAULT_CONNECTION_CONFIG;
@@ -7,7 +8,8 @@ const { serialize } = require("./lib/serialize");
 const fs = require("fs");
 const { color, getAdmin, isUrl } = require("./lib");
 const cooldown = new Map();
-const prefix = "#";
+const prefix = config.prefix;
+
 const multi_pref = new RegExp("^[" + "!#%&?/;:,.~-+=".replace(/[|\\{}()[\]^$+*?.\-\^]/g, "\\$&") + "]");
 const owner = config.owner;
 function printSpam(conn, isGc, sender, groupName) {
@@ -72,7 +74,7 @@ module.exports = handler = async (m, conn, map) => {
 		const botAdmin = isGroup ? (await getAdmin(conn, msg)).includes(conn.decodeJid(conn.user.id)) : false;
 		const isOwner = owner.includes(sender);
 
-		let temp_pref = multi_pref.test(body) ? body.split("").shift() : "#";
+		let temp_pref = multi_pref.test(body) ? body.split("").shift() : prefix;
 		if (body) {
 			body = body.startsWith(temp_pref) ? body : "";
 		} else {
@@ -96,7 +98,7 @@ module.exports = handler = async (m, conn, map) => {
 		const isQDocument = type === "extendedTextMessage" && contentQ.includes("documentMessage");
 		const isQSticker = type === "extendedTextMessage" && contentQ.includes("stickerMessage");
 		const isQLocation = type === "extendedTextMessage" && contentQ.includes("locationMessage");
-		global.isPremium = prem.checkPremiumUser(msg.sender, premium);
+		global.isPremium = isOwner ? isOwner : prem.checkPremiumUser(msg.sender, premium);
 		global.gcount = isPremium ? config.limit.gameLimitPremium : config.limit.gameLimitUser;
 		global.limitCount = config.limit.limitUser;
 		const Media = (media = {}) => {
@@ -129,7 +131,7 @@ module.exports = handler = async (m, conn, map) => {
 			await conn.sendPresenceUpdate(typeMes, jid);
 			const cotent = content.caption || content.text || "";
 			if (options.isTranslate) {
-				const footer = content.footer || false;
+				let footer = content.footer || false;
 				const customLang = customLanguage.find((x) => x.jid == msg.sender);
 				const language = customLang ? customLang.country : false;
 				if (customLang) {
@@ -151,7 +153,7 @@ module.exports = handler = async (m, conn, map) => {
 							title: "© " + config.namebot,
 							mediaType: 1,
 							//renderLargerThumbnail: true,
-							showAdAttribution: true,
+							showAdAttribution: false,
 							body:
 								config.namebot +
 								" multi-device whatsapp bot using JavaScript and made by " +
@@ -354,7 +356,7 @@ module.exports = handler = async (m, conn, map) => {
 						},
 						{ quoted: msg }
 					);
-				} else if (!isGroup) {
+				} else if (!isGroup && !isOwner) {
 					let timeLeft = (expiration - now) / 1000;
 					printSpam(conn, isGroup, sender);
 					return await conn.sendMessage(

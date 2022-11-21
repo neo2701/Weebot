@@ -19,11 +19,12 @@ module.exports = {
 			var results = await yets.all.filter((s) => s.type == "video");
 			var vid = results.find((video) => video.seconds < 3600);
 			teks = vid.url;
+			console.log(teks);
 		}
 		let yt, mp3, mp4;
 		try {
 			yt = await y2mateV(teks, "480");
-			if (yt[0].link == "https://app.y2mate.com/download") yt = await y2mateV(teks, "360");
+			if (yt[0].link == "https://app.y2mate.com/download") yt = await y2mateV(teks, "1080");
 			if (yt[0].link == "https://app.y2mate.com/download") yt = await y2mateV(teks, "144");
 			if (pilih == "play" || pilih == "ytmp3" || pilih == "youtube") {
 				yt = await y2mateA(teks, "256");
@@ -80,17 +81,30 @@ module.exports = {
 				break;
 			case "ytmp4":
 				if (q.endsWith("--doc")) {
-					await conn.sendFile(
+					await conn.sendMessage(
 						msg.from,
-						yt[0] ? yt[0].link : mp4.url,
-						yt[0] ? yt[0].judul + ".mp4" : yt.title + ".mp4",
-						"",
-						msg,
-						false,
 						{
-							asDocument: true,
+							["document"]: {
+								url: yt[0] ? yt[0].link : mp4.url,
+							},
+							mimetype: "video/mp4",
+							fileName: yt[0] ? yt[0].judul + ".mp4" : yt.title + ".mp4",
+						},
+						{
+							quoted: msg,
 						}
 					);
+					// await conn.sendFile(
+					// 	msg.from,
+					// 	yt[0] ? yt[0].link : mp4.url,
+					// 	yt[0] ? yt[0].judul + ".mp4" : yt.title + ".mp4",
+					// 	"",
+					// 	msg,
+					// 	false,
+					// 	{
+					// 		asDocument: true,
+					// 	}
+					// );
 				} else {
 					try {
 						await conn.sendMessage(

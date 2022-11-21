@@ -21,3 +21,8 @@ for (let file of files) {
 		})
 		.stderr.on("data", (chunk) => assert.ok(chunk.length < 1, file + "\n\n" + chunk));
 }
+
+var dir = "./temp";
+if (!fs.existsSync(dir)) {
+	fs.mkdirSync(dir);
+}

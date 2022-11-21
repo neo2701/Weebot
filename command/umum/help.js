@@ -1,3 +1,5 @@
+const { isOwner } = require("../owner/eval");
+
 const hari = moment.tz(config.timezone).format("a");
 const ucapanWaktu = hari.charAt(0).toUpperCase() + hari.slice(1);
 const processTime = (timestamp, now) => {
@@ -10,6 +12,7 @@ module.exports = {
 	category: "umum",
 	isLimit: true,
 	async run({ msg, conn }, { q, owner, map, args }) {
+		console.log(map);
 		if (q) {
 			const data = [];
 			const name = q.toLowerCase();
@@ -60,10 +63,10 @@ module.exports = {
 ❏ ${moment.tz(config.timezone).format("dddd, DD/MM/YYYY")}
 
 ◪ *INFO USER*
-❏ Nomer: 「  ${msg.sender.split("@")[0]} 」
+❏ Nomer: 「  +${msg.sender.split("@")[0]} 」
 ❏ Nama: 「  ${conn.getName(msg.sender)} 」
-❏ Status: 「 ${isPremium ? "Premium" : owner ? "Owner" : "Standar"} 」
-${isPremium ? `❏ Expired: 「 ${xes.days} D ${xes.hours} H ${xes.minutes} M 」\n` : ""}
+❏ Status: 「 ${isOwner ? "Owner" : isPremium ? "Premium" : "Standar"} 」
+${isPremium && !isOwner ? `❏ Expired: 「 ${xes.days} D ${xes.hours} H ${xes.minutes} M 」\n` : ""}
 
 ◪ *Fitur terpopuler saat ini*
 ${
@@ -87,7 +90,7 @@ ${
 				str += `*❏ ${key.toUpperCase()}*\n${category[key]
 					.map(
 						(cmd, index) =>
-							`*${index + 1}.* *${cmd.options.noPrefix ? "" : "#"}${cmd.name}* ${
+							`*${index + 1}.* *${cmd.options.noPrefix ? "" : prefix}${cmd.name}* ${
 								cmd.category == "private"
 									? ""
 									: cmd.use
@@ -98,23 +101,47 @@ ${
 					.join("\n")}\n\n`;
 			}
 			str += `typing *${prefix}help sticker* for get the details and example use`;
+			// await conn.sendMessage(
+			// 	msg.from,
+			// 	{
+			// 		video: { url: config.thumbvideo },
+			// 		caption: str,
+			// 		gifPlayback: true,
+			// 		footer: config.namebot + " • " + config.ownername,
+			// 		templateButtons: [
+			// 			{ urlButton: { displayText: "Shortlink", url: "https://sl.rzkyfdlh.tech" } },
+			// 			{ urlButton: { displayText: "Downloader", url: "https://down.rzkyfdlh.tech" } },
+			// 			{ quickReplyButton: { displayText: "Script Bot📑", id: "#script" } },
+			// 			{ quickReplyButton: { displayText: "Changelog📋", id: "#changelog" } },
+			// 			{ quickReplyButton: { displayText: "Dashboard📊", id: "#db" } },
+			// 		],
+			// 	},
+			// 	{ quoted: msg }
+			// );
 			await conn.sendMessage(
 				msg.from,
 				{
-					video: { url: config.thumbvideo },
-					caption: str,
-					gifPlayback: true,
+					// video: { url: config.thumbvideo },
+					text: str,
+					// gifPlayback: true,
 					footer: config.namebot + " • " + config.ownername,
-					templateButtons: [
-						{ urlButton: { displayText: "Shortlink", url: "https://sl.rzkyfdlh.tech" } },
-						{ urlButton: { displayText: "Downloader", url: "https://down.rzkyfdlh.tech" } },
-						{ quickReplyButton: { displayText: "Script Bot📑", id: "#script" } },
-						{ quickReplyButton: { displayText: "Changelog📋", id: "#changelog" } },
-						{ quickReplyButton: { displayText: "Dashboard📊", id: "#db" } },
-					],
+					// templateButtons: [
+					// 	// { urlButton: { displayText: "Shortlink", url: "https://sl.rzkyfdlh.tech" } },
+					// 	// { urlButton: { displayText: "Downloader", url: "https://down.rzkyfdlh.tech" } },
+					// 	// { quickReplyButton: { displayText: "Script Bot📑", id: "#script" } },
+					// 	// { quickReplyButton: { displayText: "Changelog📋", id: "#changelog" } },
+					// 	// { quickReplyButton: { displayText: "Dashboard📊", id: "#db" } },
+					// 	{ index: 0, urlButton: { displayText: "Shortlink", url: "https://sl.rzkyfdlh.tech" } },
+					// 	{ index: 1, urlButton: { displayText: "Downloader", url: "https://down.rzkyfdlh.tech" } },
+					// 	{ index: 2, quickReplyButton: { displayText: "Script Bot📑", id: "#script" } },
+					// 	{ index: 3, quickReplyButton: { displayText: "Changelog📋", id: "#changelog" } },
+					// 	{ index: 4, quickReplyButton: { displayText: "Dashboard📊", id: "#db" } },
+					// ],
 				},
 				{ quoted: msg }
 			);
+
+			// await msg.reply(str);
 		}
 	},
 };

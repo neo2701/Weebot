@@ -100,17 +100,18 @@ module.exports = {
 					await conn.sendMessage(
 						msg.from,
 						{
-							video: {
-								url: await resu.video.nowm.video_url,
-							},
-							caption: await rzky.tools.parseResult(tiktok, { title: "Tiktok Download" }),
+							text: await rzky.tools.parseResult(tiktok, { title: "Tiktok Download" }),
 							mimetype: "video/mp4",
 							fileName: tiktok.desc.substr(0, 19) + ".mp4",
 							templateButtons: [
-								{ urlButton: { displayText: "Source", url: q } },
-								{ urlButton: { displayText: "Downloader", url: "https://down.rzkyfdlh.tech" } },
-								{ quickReplyButton: { displayText: "Audio🎶", id: "#tiktokaudio " + q } },
+								{ index: 1, urlButton: { displayText: "Source", url: q } },
+								{
+									index: 2,
+									urlButton: { displayText: "Downloader", url: "https://down.rzkyfdlh.tech" },
+								},
+								{ index: 3, quickReplyButton: { displayText: "Audio🎶", id: "#tiktokaudio " + q } },
 							],
+							viewOnce: true,
 						},
 						{
 							quoted: msg,
