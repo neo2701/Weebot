@@ -6,7 +6,7 @@
   "license": "MIT",
   "author": "Neo2701",
   "scripts": {
-    "start": "node .",
+    "start": "node test.js && node .",
     "format": "prettier --write '**/*.{md,js,json}'",
     "dev": "nodemon --ignore session/ --ignore temp/ --ignore database/"
   },
