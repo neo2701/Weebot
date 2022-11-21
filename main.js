@@ -28,6 +28,8 @@ const spinnies = new Spinnies({
 });
 const moment = require("moment");
 const { self } = require("./config.json");
+const mongoClient = require("./lib/mongodb.js");
+const useMongoAuthState = require("./lib/useMongoAuthState");
 attribute.prefix = config.prefix;
 
 // axios fix
@@ -183,11 +185,15 @@ const ReadFitur = () => {
 // cmd
 ReadFitur();
 
+const collection = mongoClient.db("Weebot").collection(`${config.namebot}_baileys_${config.session}`);
 const connect = async () => {
-	const { state, saveCreds } = await useMultiFileAuthState(
-		path.join(__dirname, `./${session}`),
-		log({ level: "silent" })
-	);
+	// const { state, saveCreds } = await useMultiFileAuthState(
+	// 	path.join(__dirname, `./${session}`),
+	// 	log({ level: "silent" })
+	// );
+
+	const { state, saveCreds } = await useMongoAuthState(collection, log({ level: "silent" }));
+
 	let { version, isLatest } = await fetchLatestBaileysVersion();
 	console.log(color(`Using: ${version}, newer: ${isLatest}`, "yellow"));
 	const conn = Baileys({
