@@ -6,6 +6,7 @@ const {
 	jidDecode,
 	DisconnectReason,
 	delay,
+	Browsers,
 } = require("@adiwajshing/baileys");
 
 const log = (pino = require("pino"));
@@ -201,6 +202,8 @@ const connect = async () => {
 		auth: state,
 		logger: log({ level: "silent" }),
 		version,
+		browser: Browsers.macOS("Desktop"),
+		syncFullHistory: true,
 	});
 
 	// start
@@ -259,6 +262,8 @@ const connect = async () => {
 		}
 		if (connection == "open") {
 			spinnies.succeed("spinner-2", { text: "Successfully connected to whatsapp", color: "green" });
+			var user = conn.user;
+			console.log(color(`Connected to +${user.id.split(":")[0]} as ${user.name}`, "green"));
 			if (config.server) {
 				const express = require("express");
 				const bodyParser = require("body-parser");
