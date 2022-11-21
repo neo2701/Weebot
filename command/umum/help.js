@@ -12,7 +12,6 @@ module.exports = {
 	category: "umum",
 	isLimit: true,
 	async run({ msg, conn }, { q, owner, map, args }) {
-		console.log(map);
 		if (q) {
 			const data = [];
 			const name = q.toLowerCase();
